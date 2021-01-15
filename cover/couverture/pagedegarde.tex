@@ -1,0 +1,39 @@
+% The front cover is in French
+\selectlanguage{french}
+\newgeometry{inner=18mm,outer=10mm,vmargin=20mm}
+
+
+%background image of the front cover
+\coverheader{couverture/image-fond-MATHSTIC-garde.pdf}
+
+\jury{
+\footnotesize %% default for the whole \jury{} block
+{\normalsize \textbf{Rapporteurs avant soutenance :}}\par
+\vspace{0.25cm}
+
+\begin{tabular}{@{}ll}
+XXX & XXX\\
+\end{tabular}
+
+\vspace{\baselineskip}
+{\normalsize \textbf{Composition du Jury :}}\par
+
+\vspace{0.25cm}
+
+\begin{tabular}{@{}lll}
+XXX & XXX & XXX\\
+\end{tabular}
+
+\vspace{\baselineskip}
+{\normalsize \textbf{Invit{\'e} :}}\par
+\vspace{0.25cm}
+%% do not leave blank space with the line above
+\begin{tabular}{@{}ll}
+XXX & XXX \\
+\end{tabular}
+}
+
+\maketitle
+
+% Restore original margin settings
+\restoregeometry

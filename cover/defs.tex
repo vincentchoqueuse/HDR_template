@@ -1,0 +1,267 @@
+%%%%%%%%%%%%%%%%%
+%%% main packages
+%%%%%%%%%%%%%%%%%
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[euler]{textgreek}
+\usepackage{lmodern}
+
+\usepackage[french,english]{babel} %% last language is default (english here)
+
+\usepackage{setspace} %% to increase spacing between lines
+\usepackage{emptypage} %% to disable numbering on blank pages
+\usepackage{xcolor} %% for the colors
+\usepackage{geometry} %% for the margins
+\usepackage{multicol} %% for the back matter
+\usepackage{eso-pic} %% for the bacground pictures in front and back matters
+%% \usepackahe{caption} %% highly recommended
+%% \usepackage{subcaption} %% to have subfigures
+\usepackage{minitoc} %% to have local toc in chapters, etoc package is also good, but a bit more complicated
+\usepackage{tikz} %% for the placement of figures in front and back matters 
+\usetikzlibrary{babel} %% here load more tikz libs if needed, babel is a compatibility lib for the babel package
+
+
+%% We strongly recommend to use biblatex and biber for the bibliography
+
+
+%% to have pdf with clickable links
+\usepackage[pdfusetitle,colorlinks=true]{hyperref}
+%% to automatically prefix refs by the right label (figure, algorithm, etc.), must be called after hyperref, so at the end
+%% to use it: \Cref{lbl:alabel}
+\usepackage{cleveref}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% template MathSTIC
+%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%% TITRE THESE PAGE DE GARDE %%%%%%%%%%%%%%%%
+
+\makeatletter
+
+% Logo ecole doctorale
+\newcommand{\logoecoledoc}[1]{\gdef\@logoecoledoc{#1}}
+\logoecoledoc{}
+
+% Logo etablissement delivrant le diplome
+\newcommand*{\logoetablissement}[1]{\gdef\@logoetablissement{#1}}
+\logoetablissement{}
+
+%%%% Eventuel sous-titre
+\newcommand{\asubtitle}[1]{\gdef\@asubtitle{#1}}
+\asubtitle{}
+
+%%%% Discipline
+\newcommand{\discipline}[1]{\gdef\@discipline{#1}}
+\discipline{}
+
+%%%% Jury
+\newcommand{\jury}[1]{\gdef\@jury{#1}}
+\jury{}
+
+%%%% etablissement
+\newcommand{\etablissement}[1]{\gdef\@etablissement{#1}}
+\etablissement{}
+
+%%%%% Ecole doctorale
+\newcommand{\nbecoledoc}[1]{\gdef\@nbecoledoc{#1}}
+\nbecoledoc{}
+
+%%%%% Nom ecole
+\newcommand{\nomecoledoc}[1]{\gdef\@nomecoledoc{#1}}
+\nomecoledoc{}
+
+%%%%% Sp\'{e}cialit\'{e}
+\newcommand{\specialite}[1]{\gdef\@specialite{#1}}
+\specialite{}
+
+%%% Ville de soutenance
+\newcommand{\lieu}[1]{\gdef\@lieu{#1}}
+\lieu{}
+
+%%% Unite de recherche
+\newcommand{\uniterecherche}[1]{\gdef\@uniterecherche{#1}}
+\uniterecherche{}
+
+%%% Num{\'e}ro de la th{\`e}se
+\newcommand{\numthese}[1]{\gdef\@numthese{#1}}
+\numthese{}
+
+
+%%% date
+\newcommand{\datesoutenance}[1]{\gdef\@datesoutenance{#1}}
+\datesoutenance{}
+
+%%% lieu
+\newcommand{\lieusoutenance}[1]{\gdef\@lieusoutenance{#1}}
+\lieusoutenance{}
+
+%%%%%%%%%% FONT SIZES
+
+
+% Define commands to set fonts throughout the document
+\newcommand*{\selectfontfrontcover}{\fontsize{12pt}{12pt}\fontfamily{phv}\selectfont}  % Font style used in front cover 
+\newcommand*{\selectfontbackcover}{\fontsize{12pt}{12pt}\fontfamily{phv}\selectfont}   % Font style used in back cover 
+\newcommand*{\selectfontchapheads}{\fontsize{12pt}{12pt}\fontfamily{phv}\selectfont} % Font style used chapter headings
+
+
+%%%%%%%%%%%%%%%% COULEURS RGB de l'ED%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{grisfonce}{RGB}{49,49,49}
+\definecolor{grisclair}{RGB}{111,111,111}
+\definecolor{blanc}{RGB}{255,255,255}
+\definecolor{mathSTIC-Color}{RGB}{233,90,104}
+
+
+%%%%%%%%%%%%% LOGOS EN-TETES %%%%%%%%%%%%
+
+
+\newcommand{\coverheader}[1]{%
+\AddToShipoutPicture*{%
+    \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+        \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{#1}%
+        \vfill
+}}}
+\thispagestyle{empty}
+\clearpage
+\begin{tikzpicture}[remember picture,overlay]
+
+  %% check if path to logo has been set, adapted from
+  %% https://tex.stackexchange.com/questions/53068/how-to-check-if-a-macro-value-is-empty-or-will-not-create-text-with-plain-tex-co
+  {\if\relax\@logoecoledoc\relax
+  %% if empty, do nothing
+  \else
+  %% if not empty, include logo
+  \node[xshift=0.08\paperwidth,yshift=0cm] {
+  \includegraphics[width=7cm]{\@logoecoledoc}
+  };
+  \fi
+  }
+  
+  \node[xshift=.7\paperwidth,yshift=0cm] {
+  \includegraphics[width=3.5cm]{\@logoetablissement}
+  };
+\end{tikzpicture}
+\par\nobreak
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% PREMIERE DE COUVERTURE %%%%%%
+
+% Define some font sizes specific to the front cover
+\newcommand{\HugeFront}{\fontsize{26}{31}\selectfont} % Used in 'these de doctorat' title
+\newcommand{\LargeFront}{\fontsize{16}{19}\selectfont} % Used in thesis title
+
+%% remove indentation, adapted from
+%% https://tex.stackexchange.com/questions/59245/how-to-disable-automatic-indent
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+
+%mise en page de la page de garde
+
+\def\maketitle{%
+
+\setlength{\parindent}{0pt}
+{\selectfontfrontcover % Set font style for front cover page
+
+%% however we need sapcing env since we dont want that user settings modify the cover
+\begin{spacing}{1}
+        \vspace{3cm}
+        {\LARGE \textsc{Habilitation à Diriger des Recherches de}} \par
+        \vspace{2.5cm}
+        {\large\textsc \@etablissement} \par
+        \vspace{0.5cm}
+        {\small\textsc{{\'E}cole Doctorale \No \@nbecoledoc}} \par
+        \textit{\@nomecoledoc} \par
+        Sp{\'e}cialit{\'e} : \textit{\@specialite} \par
+        \vspace{0.5cm}
+        \hspace{0cm}Par \par
+        \vspace{0.25cm}
+        \hspace{0cm}{\LARGE\textbf{\@author}} \par
+        \vspace{1cm}
+        {\LargeFront\textbf{\@title}} \par
+        \vspace{0.4cm}
+        {\large{\@asubtitle}} \par
+        \vspace{0.2cm}
+        \small
+        \textbf{Habilitation pr{\'e}sent{\'e}e et soutenue {\`a} \@lieusoutenance, le \@datesoutenance} \par
+	 \textbf{Unit{\'e} de recherche : \@uniterecherche} \par
+	 \textbf{Th{\`e}se \No : \@numthese} \par
+         \vspace{1cm}
+         \@jury
+\end{spacing}
+}
+\setlength{\parindent}{\tindent}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% QUATRIEME DE COUVERTURE %%%%%%%%%%%%%%%%
+\newcommand{\titleFR}[1]{%
+\vspace{3.3cm}
+{\centering \noindent \textcolor{mathSTIC-Color}{\rule{\textwidth}{0.2cm}}}
+\vspace{-1cm}
+\selectlanguage{french}
+\section*{\selectfontbackcover\small\textcolor{mathSTIC-Color}{Titre : }{\selectfontbackcover\mdseries{#1}}} % In this particular case, font style needs to get re-selected locally
+}
+
+\newcommand{\keywordsFR}[1]{%
+\vspace{-0.2cm}
+\noindent{ \small \textbf{Mots-cl{\'e}s : }#1}
+}
+
+\newcommand{\abstractFR}[1]{%
+\vspace{-0.2cm}
+\begin{multicols}{2}
+\begin{small}
+\begin{spacing}{1}
+	\noindent \textbf{R{\'e}sum{\'e} : }#1
+\end{spacing}
+\end{small}
+\end{multicols}
+}
+
+\newcommand{\titleEN}[1]{%
+\vspace{0.5cm}
+{\centering \noindent \textcolor{mathSTIC-Color}{\rule{\textwidth}{0.2cm}}}
+\vspace{-1cm}
+\selectlanguage{english}
+\section*{\selectfontbackcover\small\textcolor{mathSTIC-Color}{Title: }{\selectfontbackcover\mdseries{#1}}} % In this particular case, font style needs to get re-selected locally
+}
+
+\newcommand{\keywordsEN}[1]{%
+\vspace{-0.2cm}
+\noindent{ \small \textbf{Keywords: }#1}
+}
+
+\newcommand{\abstractEN}[1]{%
+\vspace{-0.2cm}
+\begin{multicols}{2}
+\begin{small}
+\begin{spacing}{1}
+	\noindent \textbf{Abstract: }#1
+\end{spacing}
+\end{small}
+\end{multicols}
+}
+
+
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% other redefinitions
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand*\cleartoleftpage{%
+  \clearpage
+  \ifodd\value{page}\hbox{}\pagestyle{empty}\newpage\fi
+}
